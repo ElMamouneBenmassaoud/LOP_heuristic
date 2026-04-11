@@ -28,15 +28,11 @@
 #include "utilities.h"
 #include "timer.h"
 #include "optimization.h"
+#include "neighborhoods.h"
 
 char *FileName;
 
-/* ── Enums for algorithm configuration ─────────────────────────────── */
-typedef enum { PIVOT_NONE, PIVOT_FIRST, PIVOT_BEST }             PivotRule;
-typedef enum { NEIGH_NONE, NEIGH_TRANSPOSE, NEIGH_EXCHANGE, NEIGH_INSERT } Neighborhood;
-typedef enum { INIT_NONE, INIT_RANDOM, INIT_CW }                 InitMethod;
-typedef enum { ALG_II, ALG_VND1, ALG_VND2 }                     Algorithm;
-
+/* Enums are defined in optimization.h and shared across all files */
 PivotRule    pivotRule    = PIVOT_NONE;
 Neighborhood neighborhood = NEIGH_NONE;
 InitMethod   initMethod   = INIT_NONE;
@@ -134,21 +130,21 @@ void printConfig() {
 
 
 
-int main (int argc, char **argv) 
+int main (int argc, char **argv)
 {
   long int i,j;
   long int *currentSolution;
-  int cost, newCost, temp, firstRandomPosition, secondRandomPosition;
+  long long int cost, finalCost;
 
   /* Do not buffer output */
   setbuf(stdout,NULL);
   setbuf(stderr,NULL);
-  
+
   if (argc < 2) {
     printf("No instance file provided (use -i <instance_name>). Exiting.\n");
     exit(1);
   }
-  
+
   /* Read parameters */
   readOpts(argc, argv);
 
@@ -167,7 +163,7 @@ int main (int argc, char **argv)
       for (j=0; j < PSize; ++j)
         Seed += (long int) CostMat[i][j];
   printf("Seed used to initialize RNG: %ld.\n\n", Seed);
-  
+
   /* starts time measurement */
   start_timers();
 
@@ -180,48 +176,19 @@ int main (int argc, char **argv)
   else
     createCWSolution(currentSolution);
 
-  /* Print solution */
-  printf("Initial solution:\n");
-  for (j=0; j < PSize; j++) 
-    printf(" %ld", currentSolution[j]);
-  printf("\n");
-
-  /* Compute cost of solution and print it */
+  /* Compute cost of initial solution and print it */
   cost = computeCost(currentSolution);
-  printf("Cost of this initial solution: %d\n\n", cost);
+  printf("Initial cost: %lld\n", cost);
 
-  /* Example: apply an exchange operation of two elements at random position */
-  firstRandomPosition = randInt(0,PSize-1);
-  // Ensure second position is different from first one:
-  secondRandomPosition = firstRandomPosition + randInt(1,(PSize-2));
-  if (secondRandomPosition >= PSize)
-    secondRandomPosition -= PSize;
-
-  printf("Two positions exchanged: %d and %d. ", firstRandomPosition, secondRandomPosition);
-
-  temp = currentSolution[firstRandomPosition];
-  currentSolution[firstRandomPosition] = currentSolution[secondRandomPosition];
-  currentSolution[secondRandomPosition] = temp;
-
-  printf("Solution after exchange:\n");
-  for (j=0; j < PSize; j++) 
-    printf(" %ld", currentSolution[j]);
-  printf("\n");
-
-  /* Recompute cost of solution after the exchange move */
-  /* There are some more efficient way to do this, instead of recomputing everything... */
-  newCost = computeCost(currentSolution);
-  printf("Cost of this solution after applying the exchange move: %d\n", newCost);
-
-  if (newCost == cost)
-    printf("Second solution is as good as first one\n");
-  else if (newCost > cost)
-    printf("Second solution is better than first one\n");
+  /* Run the chosen algorithm (II or VND) */
+  if (algorithm == ALG_VND1 || algorithm == ALG_VND2)
+    finalCost = runVND(currentSolution, cost, algorithm);
   else
-    printf("Second solution is worse than first one\n");
+    finalCost = runIterativeImprovement(currentSolution, cost, pivotRule, neighborhood);
 
-  printf("Time elapsed since we started the timer: %g\n\n", elapsed_time(VIRTUAL));
+  printf("Final cost  : %lld\n", finalCost);
+  printf("Time elapsed: %g\n\n", elapsed_time(VIRTUAL));
 
-
+  free(currentSolution);
   return 0;
 }

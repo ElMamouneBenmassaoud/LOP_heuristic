@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-O3 -Wall
 
-OBJECTS=src/instance.o src/main.o src/optimization.o src/timer.o src/utilities.o
+OBJECTS=src/instance.o src/main.o src/optimization.o src/timer.o src/utilities.o src/neighborhoods.o
 
 .PHONY: clean
 

@@ -21,6 +21,12 @@
 #ifndef _LO_H_
 #define _LO_H_
 
+/* ── Algorithm configuration enums (shared across all files) ───────── */
+typedef enum { PIVOT_NONE,  PIVOT_FIRST, PIVOT_BEST }                      PivotRule;
+typedef enum { NEIGH_NONE,  NEIGH_TRANSPOSE, NEIGH_EXCHANGE, NEIGH_INSERT } Neighborhood;
+typedef enum { INIT_NONE,   INIT_RANDOM, INIT_CW }                         InitMethod;
+typedef enum { ALG_II,      ALG_VND1,    ALG_VND2 }                        Algorithm;
+
 extern long int **CostMat;
 
 long long int computeCost ( long int *lo );
