@@ -174,9 +174,11 @@ int main (int argc, char **argv)
   /* A solution is just a vector of int with the same size as the instance */
   currentSolution = (long int *)malloc(PSize * sizeof(long int));
 
-  /* Create an initial random solution. 
-     The only constraint is that it should always be a permutation */
-  createRandomSolution(currentSolution);
+  /* Create an initial solution depending on chosen method */
+  if (initMethod == INIT_RANDOM)
+    createRandomSolution(currentSolution);
+  else
+    createCWSolution(currentSolution);
 
   /* Print solution */
   printf("Initial solution:\n");

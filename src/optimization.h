@@ -25,5 +25,6 @@ extern long int **CostMat;
 
 long long int computeCost ( long int *lo );
 void createRandomSolution(long int *s);
+void createCWSolution(long int *s);
 
 #endif

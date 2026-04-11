@@ -47,7 +47,7 @@ long long int computeCost (long int *s ) {
 
 
 void createRandomSolution(long int *s) {
-    int j; 
+    int j;
     long int *random;
 
     random = generate_random_vector(PSize);
@@ -55,5 +55,43 @@ void createRandomSolution(long int *s) {
       s[j] = random[j];
     }
     free ( random );
+}
+
+
+/* Chenery-Watanabe (CW) heuristic.
+   Greedy construction: at each step, pick the unplaced row i that maximizes
+   the sum of CostMat[i][j] over all other unplaced rows j.
+   That row is the most "attractive" to place next (it contributes most to
+   the objective if placed before all remaining rows). */
+void createCWSolution(long int *s) {
+    int i, j, step, best;
+    long long int score, bestScore;
+    int *placed = (int *)calloc(PSize, sizeof(int)); /* 0 = not yet placed */
+
+    for (step = 0; step < PSize; step++) {
+        best      = -1;      
+        bestScore = LLONG_MIN; 
+
+        /* Find the unplaced row with the highest attractiveness */
+        for (i = 0; i < PSize; i++) {
+            if (placed[i]) continue;
+
+            score = 0;
+            for (j = 0; j < PSize; j++) {
+                if (!placed[j] && j != i)
+                    score += CostMat[i][j];
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                best      = i;
+            }
+        }
+
+        s[step]      = best;
+        placed[best] = 1;
+    }
+
+    free(placed);
 }
 
