@@ -1,0 +1,15 @@
+"algorithm","avg_rpd","sd_rpd","total_time"
+"VND_vnd2_-_cw",1.9224,0.4131,136.0742
+"VND_vnd1_-_cw",2.0155,0.4485,205.6508
+"II_first_insert_cw",2.0164,0.4109,138.8331
+"II_first_insert_random",2.0211,0.4507,204.2229
+"II_best_insert_cw",2.2608,0.4065,35.8877
+"II_best_insert_random",2.3037,0.4635,40.2393
+"II_first_exchange_random",2.8159,0.481,227.9231
+"II_first_exchange_cw",2.966,0.4613,189.5946
+"II_best_exchange_random",3.6027,0.5048,35.5914
+"II_best_exchange_cw",3.8465,0.6054,32.5301
+"II_best_transpose_cw",17.0783,1.6065,0.2261
+"II_first_transpose_cw",17.0863,1.6042,0.2142
+"II_best_transpose_random",34.4701,3.8033,0.0023
+"II_first_transpose_random",34.6058,3.7984,0.0017
