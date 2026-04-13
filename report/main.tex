@@ -1,0 +1,46 @@
+\documentclass{ULBreport}
+
+% Additional packages for scientific writing
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{microtype}
+
+\sceau{Pictures/sceauULB.jpg}
+\addbibresource{biblio.bib}
+
+\begin{document}
+
+% Override French labels with English
+\renewcommand{\chaptername}{Chapter}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Table}
+
+\titleULB{
+    title={Iterative Improvement and Variable Neighborhood Descent for the Linear Ordering Problem},
+    studies={2025--2026},
+    course={INFO-H-413 --- Heuristic Optimization},
+    author={Mamoun Benmassaoud},
+    date={Academic year 2025--2026},
+    teacher={Prof. Thomas Stützle},
+    logo={Pictures/logo_mastic_long_petit.png},
+    manyAuthor
+}
+
+% ── Chapters ─────────────────────────────────────────────────────
+\input{chapters/abstract}
+\input{chapters/introduction}
+\input{chapters/problem}
+\input{chapters/methods}
+\input{chapters/results}
+\input{chapters/conclusion}
+
+% ── Bibliography ─────────────────────────────────────────────────
+\printbibliography
+
+\end{document}

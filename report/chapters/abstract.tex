@@ -1,0 +1,25 @@
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+The Linear Ordering Problem (LOP) is a classical NP-hard combinatorial optimisation
+problem that consists of finding a permutation of rows and columns of a square matrix
+such that the sum of superdiagonal entries is maximised. It has applications in various
+fields including economics, archaeology, and scheduling.
+
+In this work, we implement and evaluate iterative improvement (II) algorithms for the
+LOP, combining two pivoting rules (first-improvement and best-improvement), three
+neighbourhood structures (transpose, exchange, and insert), and two initialisation
+methods (random permutation and the Chenery-Watanabe greedy heuristic), resulting in
+twelve algorithm configurations. We further implement two Variable Neighbourhood
+Descent (VND) algorithms that combine all three neighbourhoods in different orderings.
+
+All neighbourhood evaluations use incremental delta computations to avoid redundant
+objective function recalculations. Experiments are conducted on 78 benchmark instances
+of sizes 150 and 250. Results are compared using the relative percentage deviation (RPD)
+from best-known solutions and assessed through paired Wilcoxon signed-rank tests and
+Student's t-tests.
+
+The results show that insert-based and VND algorithms consistently outperform
+transpose and exchange neighbourhoods. The initialisation method has a significant
+impact for transpose and exchange, but not for insert. No statistically significant
+difference was found between the two VND orderings.

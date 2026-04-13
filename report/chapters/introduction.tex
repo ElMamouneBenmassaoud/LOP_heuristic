@@ -1,0 +1,38 @@
+\chapter{Introduction}
+
+The Linear Ordering Problem (LOP) is a well-known NP-hard combinatorial
+optimisation problem with a wide range of practical applications, including the
+triangularisation of input-output matrices in economics, chronological ordering
+in archaeology, and scheduling problems~\cite{SchStu04, MarReiDua12}.
+Given the difficulty of finding optimal solutions in reasonable time, heuristic
+and metaheuristic approaches are commonly used in practice.
+
+Local search methods form the backbone of many successful algorithms for the
+LOP. They operate by iteratively moving from a current solution to a
+neighbouring one as long as an improvement can be found, stopping at a local
+optimum. The quality of the final solution largely depends on the choice of
+neighbourhood structure and pivoting rule used during the search.
+
+This report describes the implementation and experimental evaluation of
+iterative improvement (II) algorithms and Variable Neighbourhood Descent (VND)
+for the LOP. For II, we consider three neighbourhood structures --- transpose,
+exchange, and insert --- combined with two pivoting rules (first-improvement
+and best-improvement) and two initialisation strategies (random permutation
+and the Chenery-Watanabe greedy heuristic~\cite{CheWat58}), yielding twelve
+algorithm configurations in total. VND extends this by cycling through
+multiple neighbourhoods to escape local optima that a single neighbourhood
+cannot avoid~\cite{HanMla01}.
+
+A key aspect of the implementation is the use of incremental delta evaluations
+for all neighbourhood structures, which avoids recomputing the full objective
+function at each step and significantly reduces computation time.
+
+The algorithms are tested on 78 benchmark instances of sizes 150 and 250,
+drawn from established LOP benchmark libraries~\cite{MarReiDua12}. Performance
+is measured using the relative percentage deviation (RPD) from best-known
+solutions, and statistical comparisons between algorithms are performed using
+paired Wilcoxon signed-rank tests~\cite{Wilcoxon45} and Student's t-tests.
+
+The rest of this report is organised as follows. Section~2 formally defines
+the LOP. Section~3 describes the implemented algorithms and the experimental
+setup. Section~4 presents and discusses the results. Section~5 concludes.
