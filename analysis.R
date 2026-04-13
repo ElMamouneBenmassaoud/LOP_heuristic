@@ -46,6 +46,14 @@ cat("\nSaved: results/summary_table.csv\n")
 # ─────────────────────────────────────────────────────────────────
 # 2. WILCOXON TESTS
 # ─────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────
+# NOTE on RPD sign convention:
+# We use RPD = 100 * (best_known - cost) / best_known  (positive, 0 = optimal)
+# The prof's slides use (cost - best_known) / best_known (negative, 0 = optimal)
+# Both are equivalent for statistical testing — only the sign differs.
+# We use the positive convention as it is more intuitive for a maximization problem.
+# ─────────────────────────────────────────────────────────────────
+
 get_rpd <- function(piv, nei, ini) {
     sub <- data[data$algo=="II" & data$pivot==piv &
                 data$neighborhood==nei & data$init==ini, ]
@@ -57,19 +65,29 @@ get_vnd_rpd <- function(vnd) {
     sub[order(sub$instance), "rpd"]
 }
 
-wilcox_result <- function(label_a, rpd_a, label_b, rpd_b) {
-    test <- wilcox.test(rpd_a, rpd_b, paired=TRUE, exact=FALSE)
-    sig  <- ifelse(test$p.value < 0.05, "YES", "no")
-    cat(sprintf("  %-35s vs %-35s | p=%.4f | sig: %s\n",
-                label_a, label_b, test$p.value, sig))
+# Run both t-test and Wilcoxon (paired) and return results
+# H0 for both: no difference between the two algorithms (median of differences = 0)
+# We reject H0 if p-value < alpha = 0.05
+both_tests <- function(label_a, rpd_a, label_b, rpd_b) {
+    w <- wilcox.test(rpd_a, rpd_b, paired=TRUE, exact=FALSE)
+    t <- t.test(rpd_a,     rpd_b, paired=TRUE)
+    w_sig <- ifelse(w$p.value < 0.05, "YES", "no")
+    t_sig <- ifelse(t$p.value < 0.05, "YES", "no")
+    cat(sprintf("  %-32s vs %-32s | Wilcoxon p=%.4f (%s) | t-test p=%.4f (%s)\n",
+                label_a, label_b,
+                w$p.value, w_sig,
+                t$p.value, t_sig))
     data.frame(algo_a=label_a, algo_b=label_b,
-               p_value=round(test$p.value,4), significant=sig)
+               wilcoxon_p=round(w$p.value,4), wilcoxon_sig=w_sig,
+               ttest_p=round(t$p.value,4),    ttest_sig=t_sig)
 }
 
-wilcox_rows <- list()
+test_rows <- list()
 
 cat("\n=======================================================\n")
-cat(" WILCOXON TESTS — Exercise 1.1\n")
+cat(" STATISTICAL TESTS — Exercise 1.1\n")
+cat(" H0: no difference in RPD between the two algorithms\n")
+cat(" Alpha = 0.05 — H0 rejected if p-value < 0.05\n")
 cat("=======================================================\n")
 
 cat("\n--- First vs Best (same neighborhood + init) ---\n")
@@ -77,8 +95,8 @@ for (nei in c("transpose","exchange","insert")) {
     for (ini in c("random","cw")) {
         a <- get_rpd("first", nei, ini)
         b <- get_rpd("best",  nei, ini)
-        wilcox_rows[[length(wilcox_rows)+1]] <-
-            wilcox_result(paste("first",nei,ini), a, paste("best",nei,ini), b)
+        test_rows[[length(test_rows)+1]] <-
+            both_tests(paste("first",nei,ini), a, paste("best",nei,ini), b)
     }
 }
 
@@ -86,22 +104,24 @@ cat("\n--- Neighborhood comparison (first-improvement, random init) ---\n")
 t_r <- get_rpd("first","transpose","random")
 e_r <- get_rpd("first","exchange", "random")
 i_r <- get_rpd("first","insert",   "random")
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("first_transpose_random", t_r, "first_exchange_random", e_r)
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("first_transpose_random", t_r, "first_insert_random",   i_r)
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("first_exchange_random",  e_r, "first_insert_random",   i_r)
+test_rows[[length(test_rows)+1]] <- both_tests("first_transpose_random", t_r, "first_exchange_random", e_r)
+test_rows[[length(test_rows)+1]] <- both_tests("first_transpose_random", t_r, "first_insert_random",   i_r)
+test_rows[[length(test_rows)+1]] <- both_tests("first_exchange_random",  e_r, "first_insert_random",   i_r)
 
 cat("\n--- Random vs CW (same pivot + neighborhood) ---\n")
 for (piv in c("first","best")) {
     for (nei in c("transpose","exchange","insert")) {
         a <- get_rpd(piv, nei, "random")
         b <- get_rpd(piv, nei, "cw")
-        wilcox_rows[[length(wilcox_rows)+1]] <-
-            wilcox_result(paste(piv,nei,"random"), a, paste(piv,nei,"cw"), b)
+        test_rows[[length(test_rows)+1]] <-
+            both_tests(paste(piv,nei,"random"), a, paste(piv,nei,"cw"), b)
     }
 }
 
 cat("\n=======================================================\n")
-cat(" WILCOXON TESTS — Exercise 1.2 (VND)\n")
+cat(" STATISTICAL TESTS — Exercise 1.2 (VND)\n")
+cat(" H0: no difference in RPD between the two algorithms\n")
+cat(" Alpha = 0.05 — H0 rejected if p-value < 0.05\n")
 cat("=======================================================\n")
 
 vnd1    <- get_vnd_rpd("vnd1")
@@ -109,14 +129,14 @@ vnd2    <- get_vnd_rpd("vnd2")
 best_ii <- get_rpd("first","insert","cw")
 
 cat("\n--- VND1 vs VND2 ---\n")
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("VND1_cw", vnd1, "VND2_cw", vnd2)
+test_rows[[length(test_rows)+1]] <- both_tests("VND1_cw", vnd1, "VND2_cw", vnd2)
 
 cat("\n--- VND vs best II (first_insert_cw) ---\n")
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("VND1_cw", vnd1, "first_insert_cw", best_ii)
-wilcox_rows[[length(wilcox_rows)+1]] <- wilcox_result("VND2_cw", vnd2, "first_insert_cw", best_ii)
+test_rows[[length(test_rows)+1]] <- both_tests("VND1_cw", vnd1, "first_insert_cw", best_ii)
+test_rows[[length(test_rows)+1]] <- both_tests("VND2_cw", vnd2, "first_insert_cw", best_ii)
 
-wilcox_table <- do.call(rbind, wilcox_rows)
-write.csv(wilcox_table, "results/wilcoxon_table.csv", row.names=FALSE)
+test_table <- do.call(rbind, test_rows)
+write.csv(test_table, "results/wilcoxon_table.csv", row.names=FALSE)
 cat("\nSaved: results/wilcoxon_table.csv\n")
 
 # ─────────────────────────────────────────────────────────────────
