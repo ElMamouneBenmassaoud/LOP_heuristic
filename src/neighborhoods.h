@@ -39,8 +39,8 @@ long long int runIterativeImprovement(long int *s, long long int cost,
                                       PivotRule pivot, Neighborhood neigh);
 
 /* ── VND: Variable Neighborhood Descent ────────────────────────────
-   ALG_VND1: transpose → exchange → insert  (best-improvement at each step)
-   ALG_VND2: transpose → insert  → exchange (best-improvement at each step) */
+   ALG_VND1: transpose → exchange → insert  (first-improvement at each step)
+   ALG_VND2: transpose → insert  → exchange (first-improvement at each step) */
 long long int runVND(long int *s, long long int cost, Algorithm alg);
 
 #endif

@@ -246,7 +246,7 @@ long long int runIterativeImprovement(long int *s, long long int cost,
 
 /* ══════════════════════════════════════════════════════════════════════
    VND — Variable Neighborhood Descent
-   Cycles through neighborhoods (best-improvement at each step).
+   Uses first-improvement at each neighborhood step (as required).
    Restarts from the first neighborhood whenever an improvement is found.
    Stops when no neighborhood yields an improvement.
    ══════════════════════════════════════════════════════════════════════ */
@@ -268,10 +268,11 @@ long long int runVND(long int *s, long long int cost, Algorithm alg) {
     while (k < 3) {
         long long int newCost;
 
+        /* first-improvement (1) at each step, as specified */
         switch (order[k]) {
-            case NEIGH_TRANSPOSE: newCost = iterativeImprovementTranspose(s, cost, 0); break;
-            case NEIGH_EXCHANGE:  newCost = iterativeImprovementExchange (s, cost, 0); break;
-            case NEIGH_INSERT:    newCost = iterativeImprovementInsert   (s, cost, 0); break;
+            case NEIGH_TRANSPOSE: newCost = iterativeImprovementTranspose(s, cost, 1); break;
+            case NEIGH_EXCHANGE:  newCost = iterativeImprovementExchange (s, cost, 1); break;
+            case NEIGH_INSERT:    newCost = iterativeImprovementInsert   (s, cost, 1); break;
             default: newCost = cost; break;
         }
 
