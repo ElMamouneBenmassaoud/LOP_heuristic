@@ -145,7 +145,6 @@ int main (int argc, char **argv)
   CostMat = readInstance(FileName);
   printf("Data have been read from instance file. Size of instance = %ld.\n\n", PSize);
 
-  /* seed based on matrix content so it stays constant per instance */
   Seed = (long int) 0;
   for (i = 0; i < PSize; ++i)
     for (j = 0; j < PSize; ++j)

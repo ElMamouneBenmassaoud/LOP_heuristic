@@ -1,0 +1,210 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{CheWat58}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=b6b8c09b994e001f9e1e14d2b5e549ec}{%
+           family={Chenery},
+           familyi={C\bibinitperiod},
+           given={Hollis\bibnamedelima B.},
+           giveni={H\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=08b8d0cefef3f127d2c91fe924ee6a1d}{%
+           family={Watanabe},
+           familyi={W\bibinitperiod},
+           given={Tsunehiko},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{fullhash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{fullhashraw}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{bibnamehash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{authorbibnamehash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{authornamehash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{authorfullhash}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \strng{authorfullhashraw}{ecf87fecdebec48e9e75cf9f98cbe80d}
+      \field{labelalpha}{CW58}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{4}
+      \field{title}{International Comparisons of the Structure of Production}
+      \field{volume}{26}
+      \field{year}{1958}
+      \field{pages}{487\bibrangedash 521}
+      \range{pages}{35}
+    \endentry
+    \entry{HanMla01}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7bb981a79a1c9c28df155eaf022cd6ba}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Pierre},
+           giveni={P\bibinitperiod}}}%
+        {{hash=a7379e085a19467a97449f587eb2991c}{%
+           family={Mladenović},
+           familyi={M\bibinitperiod},
+           given={Nenad},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{fullhash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{fullhashraw}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{bibnamehash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{authorbibnamehash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{authornamehash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{authorfullhash}{a24a32bfc1e56cd2240b83497453aeed}
+      \strng{authorfullhashraw}{a24a32bfc1e56cd2240b83497453aeed}
+      \field{labelalpha}{HM01}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{European Journal of Operational Research}
+      \field{number}{3}
+      \field{title}{Variable Neighbourhood Search: Principles and Applications}
+      \field{volume}{130}
+      \field{year}{2001}
+      \field{pages}{449\bibrangedash 467}
+      \range{pages}{19}
+    \endentry
+    \entry{MarReiDua12}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=7fd8dcfc9dbf729387bc490da8d9c1a5}{%
+           family={Martí},
+           familyi={M\bibinitperiod},
+           given={Rafael},
+           giveni={R\bibinitperiod}}}%
+        {{hash=38b844c9f4a823467f2581c274534664}{%
+           family={Reinelt},
+           familyi={R\bibinitperiod},
+           given={Gerhard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=de34420e4b036ea9a8137cabe0ca8520}{%
+           family={Duarte},
+           familyi={D\bibinitperiod},
+           given={Abraham},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{fullhash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{fullhashraw}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{bibnamehash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{authorbibnamehash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{authornamehash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{authorfullhash}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \strng{authorfullhashraw}{28e5fcd0ba4ecfd4d177862f81f1bb70}
+      \field{labelalpha}{MRD12}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computational Optimization and Applications}
+      \field{number}{3}
+      \field{title}{A Benchmark Library and a Comparison of Heuristic Methods for the Linear Ordering Problem}
+      \field{volume}{51}
+      \field{year}{2012}
+      \field{pages}{1297\bibrangedash 1317}
+      \range{pages}{21}
+    \endentry
+    \entry{SchStu04}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7afd3bb7a1aafc8ef3138bd972659412}{%
+           family={Schiavinotto},
+           familyi={S\bibinitperiod},
+           given={Tommaso},
+           giveni={T\bibinitperiod}}}%
+        {{hash=fe8c0dacc6efae8023b930228f5abc18}{%
+           family={Stützle},
+           familyi={S\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Kluwer Academic Publishers}%
+      }
+      \strng{namehash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{fullhash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{fullhashraw}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{bibnamehash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{authorbibnamehash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{authornamehash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{authorfullhash}{68493c001ae4ddfef8be4783232fd5ff}
+      \strng{authorfullhashraw}{68493c001ae4ddfef8be4783232fd5ff}
+      \field{labelalpha}{SS04}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Mathematical Modelling and Algorithms}
+      \field{title}{The Linear Ordering Problem: Instances, Search Space Analysis and Algorithms}
+      \field{volume}{3}
+      \field{year}{2004}
+      \field{pages}{367\bibrangedash 402}
+      \range{pages}{36}
+    \endentry
+    \entry{Wilcoxon45}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=405b308b1e8e33ef3275bf6cb9c9b281}{%
+           family={Wilcoxon},
+           familyi={W\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{fullhash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{fullhashraw}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{bibnamehash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{authorbibnamehash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{authornamehash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{authorfullhash}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \strng{authorfullhashraw}{405b308b1e8e33ef3275bf6cb9c9b281}
+      \field{labelalpha}{Wil45}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biometrics Bulletin}
+      \field{number}{6}
+      \field{title}{Individual Comparisons by Ranking Methods}
+      \field{volume}{1}
+      \field{year}{1945}
+      \field{pages}{80\bibrangedash 83}
+      \range{pages}{4}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

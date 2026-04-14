@@ -1,7 +1,3 @@
-#!/bin/zsh
-# Run all 14 algorithm configurations on all instances.
-# Output: results/raw_data.txt (tab-separated, usable in R)
-
 BINARY="./lop"
 INSTANCES_DIR="./instances"
 BEST_KNOWN_FILE="./best_known/best_known.txt"
@@ -47,7 +43,6 @@ run_one() {
     echo "  done: $algo $pivot $neigh $init"
 }
 
-# 12 II configurations (2 pivots x 3 neighborhoods x 2 inits)
 for pivot in first best; do
     for neigh in transpose exchange insert; do
         for init in random cw; do
@@ -57,7 +52,6 @@ for pivot in first best; do
     done
 done
 
-# 2 VND configurations (first-improvement, CW only — as specified)
 for vnd in vnd1 vnd2; do
     echo "Running: VND --${vnd} --cw"
     run_one "VND" "$vnd" "-" "cw" "--${vnd} --cw"

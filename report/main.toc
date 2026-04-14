@@ -1,0 +1,33 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{Abstract}{1}{Doc-Start}%
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Problem Description}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}The Linear Ordering Problem}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Equivalent Formulations}{3}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Applications}{3}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Benchmark Instances}{4}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Materials and Methods}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Neighbourhood Structures}{5}{section.3.1}%
+\contentsline {paragraph}{Transpose.}{5}{section*.1}%
+\contentsline {paragraph}{Exchange.}{5}{section*.2}%
+\contentsline {paragraph}{Insert.}{5}{section*.3}%
+\contentsline {section}{\numberline {3.2}Initialisation}{5}{section.3.2}%
+\contentsline {paragraph}{Random permutation.}{5}{section*.4}%
+\contentsline {paragraph}{Chenery-Watanabe (CW) heuristic.}{6}{section*.5}%
+\contentsline {section}{\numberline {3.3}Iterative Improvement}{6}{section.3.3}%
+\contentsline {paragraph}{First-improvement (FI).}{6}{section*.6}%
+\contentsline {paragraph}{Best-improvement (BI).}{6}{section*.7}%
+\contentsline {section}{\numberline {3.4}Variable Neighbourhood Descent}{6}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Experimental Setup}{6}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Results and Discussion}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Overview}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Exercise 1.1: Iterative Improvement}{10}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Pivoting rule}{10}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Neighbourhood structure}{10}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Initialisation}{10}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Statistical overview}{11}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Exercise 1.2: Variable Neighbourhood Descent}{11}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}VND1 vs VND2}{11}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}VND vs single-neighbourhood}{12}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Quality vs. computation time}{12}{subsection.4.3.3}%
+\contentsline {chapter}{\numberline {5}Conclusion}{13}{chapter.5}%
