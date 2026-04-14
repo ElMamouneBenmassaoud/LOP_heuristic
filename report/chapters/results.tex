@@ -70,13 +70,13 @@ which particular instance it runs on.
     \label{fig:boxplot}
 \end{figure}
 
-\section{Exercise 1.1 --- Iterative Improvement}
+\section{Exercise 1.1: Iterative Improvement}
 
 \subsection{Pivoting rule}
 
 For insert, first-improvement (2.02\%) consistently beats best-improvement
 (2.26--2.30\%), and this difference is statistically significant ($p < 0.001$
-in all cases). At first this is a bit surprising --- you would expect that
+in all cases). At first this is a bit surprising, since you would expect that
 always picking the best available move leads to a better solution. But what
 seems to happen is that best-improvement takes fewer, larger steps and gets
 stuck in local optima that first-improvement avoids by moving more quickly
@@ -106,7 +106,7 @@ algorithms to make the insert/exchange gap clearer.
 
 The effect of initialisation depends a lot on the neighbourhood. For
 transpose, switching from random to CW cuts the RPD from $\sim$34\% down to
-$\sim$17\% --- a massive improvement that is clearly significant ($p <
+$\sim$17\%, a massive improvement that is clearly significant ($p <
 0.001$). For exchange, CW also helps ($p = 0.014$ for FI, $p = 0.002$ for
 BI). But for insert, initialisation makes essentially no difference: $p =
 0.909$ for FI-insert and $p = 0.557$ for BI-insert. The insert neighbourhood
@@ -130,7 +130,7 @@ differences are small.
     \label{fig:heatmap}
 \end{figure}
 
-\section{Exercise 1.2 --- Variable Neighbourhood Descent}
+\section{Exercise 1.2: Variable Neighbourhood Descent}
 
 \subsection{VND1 vs VND2}
 
@@ -154,7 +154,7 @@ insert neighbourhood is already strong enough on its own.
 Figure~\ref{fig:qvst} plots average RPD against total computation time. The
 trade-off is interesting: best-improvement algorithms (for insert and exchange)
 run much faster but reach worse solutions. First-improvement insert and both
-VND variants sit in a good spot --- competitive quality at moderate cost.
+VND variants sit in a good spot: competitive quality at moderate cost.
 Transpose is in a category of its own: extremely fast but nowhere near useful.
 
 \begin{figure}[H]
@@ -169,5 +169,5 @@ Transpose is in a category of its own: extremely fast but nowhere near useful.
 
 VND2 is also faster than VND1 (136 s vs 206 s total) while achieving slightly
 better quality, which suggests that visiting insert before exchange is more
-efficient --- insert likely resolves most of the remaining improvements,
+efficient: insert likely resolves most of the remaining improvements,
 leaving less work for exchange to do.
