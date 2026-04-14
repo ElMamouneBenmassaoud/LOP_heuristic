@@ -1,0 +1,44 @@
+\chapter{Conclusion}
+
+This work implemented and tested fourteen algorithm configurations for the
+Linear Ordering Problem --- twelve iterative improvement variants and two VND
+algorithms --- on 78 benchmark instances of sizes 150 and 250.
+
+The most clear result is that the neighbourhood structure matters more than
+anything else. Insert-based search consistently reaches around 2\% average
+RPD, exchange lands somewhere between 2.8\% and 3.9\%, and transpose is
+essentially unusable on its own, reaching 17--35\% depending on
+initialisation. These differences are all statistically significant and
+persistent across instances, so this is not a fluke of the benchmark set.
+
+The pivoting rule also has a noticeable effect, but in a direction that is not
+immediately obvious: first-improvement beats best-improvement for both insert
+and exchange. The most likely explanation is that best-improvement makes
+fewer, greedier moves and gets trapped in worse local optima, while
+first-improvement explores the search space more gradually. For transpose, the
+pivoting rule does not matter much since the neighbourhood is too small either
+way.
+
+Initialisation is only relevant when using transpose or exchange. For insert,
+starting from a random permutation or from the CW heuristic gives essentially
+the same final result ($p > 0.5$). The insert neighbourhood is large enough to
+recover from a poor starting point, which is a useful practical observation.
+
+The VND results are perhaps the least expected. Combining all three
+neighbourhoods does not significantly outperform FI-insert-CW on its own
+($p = 0.636$ for VND1, $p = 0.053$ for VND2). The insert neighbourhood
+already covers most of what the others bring, so the added complexity of VND
+gives limited benefit here. The two VND orderings are also statistically
+indistinguishable from each other ($p = 0.176$).
+
+If we had to pick one algorithm to use in practice, FI-insert-CW is a solid
+choice: it matches VND in quality, runs in a reasonable time, and is simpler
+to implement. BI-insert is an option if speed is more important, though it
+gives slightly worse results.
+
+One limitation worth mentioning is that each configuration is run only once
+per instance. For the random initialisation variants, multiple runs would give
+a more reliable estimate of average performance. A natural follow-up would
+also be to wrap these local search algorithms inside an iterated local search
+or simulated annealing framework to escape local optima and push the RPD
+further down.

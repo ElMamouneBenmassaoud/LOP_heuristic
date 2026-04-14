@@ -48,6 +48,10 @@ VND:
     ./lop -i instances/N-be75eec_150 --vnd2 --cw
 
 Output format:
+    Algorithm  : ...
+    Pivoting   : ...
+    Init       : ...
+
     Initial cost: <value>
     Final cost  : <value>
     Time elapsed: <seconds>

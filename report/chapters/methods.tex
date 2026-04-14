@@ -1,0 +1,119 @@
+\chapter{Materials and Methods}
+
+\section{Neighbourhood Structures}
+
+A neighbourhood $\mathcal{N}(\pi)$ is the set of all permutations reachable
+from $\pi$ by applying a single elementary move. Three neighbourhoods were
+implemented.
+
+\paragraph{Transpose.} Swaps two adjacent elements at positions $i$ and $i+1$:
+\[
+    \text{transpose}(\pi, i) =
+    (\pi_1, \ldots, \pi_{i-1},\, \pi_{i+1},\, \pi_i,\, \pi_{i+2}, \ldots, \pi_n).
+\]
+The neighbourhood has $n-1$ neighbours. The change in objective value reduces
+to a single matrix lookup:
+\begin{equation}
+    \Delta_T(\pi, i) = c_{\pi_{i+1}\pi_i} - c_{\pi_i\pi_{i+1}},
+    \label{eq:delta_transpose}
+\end{equation}
+so each evaluation costs $O(1)$ and a full neighbourhood scan costs $O(n)$.
+
+\paragraph{Exchange.} Swaps two arbitrary elements at positions $i < j$:
+\[
+    \text{exchange}(\pi, i, j) =
+    (\pi_1, \ldots, \pi_j, \ldots, \pi_i, \ldots, \pi_n).
+\]
+The neighbourhood has $n(n-1)/2$ neighbours. The incremental delta is:
+\begin{equation}
+    \Delta_X(\pi, i, j) =
+    (c_{\pi_j\pi_i} - c_{\pi_i\pi_j})
+    + \sum_{k=i+1}^{j-1}
+    \bigl[(c_{\pi_j\pi_k} - c_{\pi_k\pi_j})
+         + (c_{\pi_k\pi_i} - c_{\pi_i\pi_k})\bigr].
+    \label{eq:delta_exchange}
+\end{equation}
+Each evaluation costs $O(|i - j|)$, and a full scan costs $O(n^3)$ without
+further optimisation.
+
+\paragraph{Insert.} Removes element $\pi_i$ from its position and reinserts
+it at position $j \neq i$. The neighbourhood has $(n-1)^2$ neighbours. As
+shown in~\cite{SchStu04}, any insert move is equivalent to a sequence of
+$|i - j|$ adjacent transpose moves, which allows incremental evaluation:
+the delta for inserting $\pi_i$ at position $j$ is accumulated from the
+intermediate swap deltas. This brings the cost of a full scan down from
+$O(n^3)$ to $O(n^2)$.
+
+\section{Initialisation}
+
+\paragraph{Random permutation.} A uniformly random permutation is generated
+using a Fisher-Yates shuffle. It is simple and covers different regions of the
+search space each time.
+
+\paragraph{Chenery-Watanabe (CW) heuristic.} Originally introduced for
+triangularising economic input-output tables~\cite{CheWat58}, this greedy
+method builds a permutation by repeatedly selecting the element $i$ not yet
+placed that has the largest row sum:
+\begin{equation}
+    a_i = \sum_{j=1}^{n} c_{ij}.
+    \label{eq:cw}
+\end{equation}
+The element with the highest $a_i$ is ranked first, and the process continues
+until all elements are placed. CW runs in $O(n^2)$ and typically produces a
+much better starting point than a random permutation.
+
+\section{Iterative Improvement}
+
+An iterative improvement algorithm starts from an initial solution and
+repeatedly applies an improving move until no such move exists. It stops at a
+local optimum. Two pivoting strategies were used.
+
+\paragraph{First-improvement (FI).} The neighbourhood is scanned in a fixed
+order and the first move with a strictly positive delta is applied immediately.
+This avoids scanning the full neighbourhood at each step.
+
+\paragraph{Best-improvement (BI).} The entire neighbourhood is scanned and the
+move with the highest delta is applied. Each iteration is more expensive but
+makes a larger improvement per step.
+
+All six combinations of pivoting rule and neighbourhood were tested with both
+initialisation strategies, giving $2 \times 3 \times 2 = 12$ configurations.
+
+\section{Variable Neighbourhood Descent}
+
+Variable Neighbourhood Descent (VND) runs a sequence of local searches, each
+using a different neighbourhood~\cite{HanMla01}. If a search in neighbourhood
+$\mathcal{N}_k$ finds an improvement, the algorithm restarts from
+$\mathcal{N}_1$. If no improvement is found, it moves to $\mathcal{N}_{k+1}$.
+The process stops when no neighbourhood can improve the solution.
+
+Two orderings were tested, both using first-improvement and CW initialisation:
+\begin{itemize}
+    \item \textbf{VND1:} Transpose $\to$ Exchange $\to$ Insert.
+    \item \textbf{VND2:} Transpose $\to$ Insert $\to$ Exchange.
+\end{itemize}
+Transpose is placed first in both cases because it is the cheapest
+neighbourhood to scan.
+
+\section{Experimental Setup}
+
+All algorithms were implemented in C and compiled with \texttt{-O3}. Each
+configuration was applied once to each of the 78 benchmark instances. Solution
+quality is measured using the relative percentage deviation (RPD) from the
+best-known value $f^*$:
+\begin{equation}
+    \text{RPD} = 100 \times \frac{f^* - f(\pi)}{f^*}.
+    \label{eq:rpd}
+\end{equation}
+An RPD of 0 means the best-known solution was reached; lower is better.
+Note that this convention gives non-negative values, since $f(\pi) \leq f^*$
+by definition of the best-known solution. Some references use the opposite
+sign convention, which produces non-positive values, but the interpretation
+is equivalent.
+
+Statistical comparisons between algorithm pairs use a paired Wilcoxon
+signed-rank test and a paired t-test at significance level $\alpha = 0.05$,
+run in R. Both tests are paired because each algorithm is evaluated on the
+same 78 instances, which removes the effect of instance difficulty. The
+Wilcoxon test makes no normality assumption; the t-test is included as a
+standard complement.

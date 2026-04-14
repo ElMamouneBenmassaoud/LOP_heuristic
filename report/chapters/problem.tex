@@ -1,0 +1,63 @@
+\chapter{Problem Description}
+
+\section{The Linear Ordering Problem}
+
+The Linear Ordering Problem (LOP) is a combinatorial optimisation problem
+that asks for a permutation of the rows and columns of a square matrix that
+maximises the sum of superdiagonal entries. It is $\mathcal{NP}$-hard in
+general, which means no polynomial-time exact algorithm is known for it.
+
+More formally, given an $n \times n$ matrix $C = (c_{ij})$ with non-negative
+integer entries, the goal is to find a permutation $\pi$ of $\{1, \ldots, n\}$
+that maximises
+\begin{equation}
+    f(\pi) = \sum_{i=1}^{n} \sum_{j=i+1}^{n} c_{\pi_i \pi_j},
+    \label{eq:lop_obj}
+\end{equation}
+where $\pi_i$ is the element placed at position $i$~\cite{SchStu04}. Summing
+$c_{\pi_i \pi_j}$ for all $i < j$ collects all matrix entries that end up
+above the diagonal once rows and columns are reordered according to $\pi$.
+
+\section{Equivalent Formulations}
+
+The LOP is also known as the \textit{triangulation problem}: permute the rows
+and columns of $C$ simultaneously so that the upper triangle is as large as
+possible (or equivalently, the lower triangle as small as possible). The two
+formulations are equivalent.
+
+There is also a graph interpretation. Given a complete weighted directed graph
+on $n$ nodes, a tournament selects one arc from each pair of nodes. An acyclic
+tournament defines a total ordering of the nodes, and maximising the total arc
+weight of the compatible arcs is exactly the LOP~\cite{MarReiDua12}.
+
+Before running any algorithm, each instance is converted to \textit{normal
+form}: all entries are made non-negative, diagonal entries are set to zero,
+and for each pair $(i, j)$ the smaller of $\{c_{ij}, c_{ji}\}$ is set to
+zero. This transformation does not change the optimal permutation but makes
+comparing algorithm results across instances more meaningful.
+
+\section{Applications}
+
+Despite being a theoretical combinatorial problem, the LOP appears in several
+practical contexts:
+\begin{itemize}
+    \item \textbf{Economics:} triangularising input-output tables to reveal the
+    hierarchical structure of production sectors, as originally proposed by
+    Chenery and Watanabe~\cite{CheWat58}.
+    \item \textbf{Archaeology:} finding the most likely chronological ordering
+    of artefacts found at an excavation site.
+    \item \textbf{Scheduling:} ordering tasks or jobs to minimise
+    precedence-constraint violations.
+    \item \textbf{Graph drawing:} minimising the number of arc crossings in
+    layered directed graphs.
+\end{itemize}
+
+\section{Benchmark Instances}
+
+The experiments in this report use a set of 78 benchmark instances provided
+for this exercise, with matrix sizes $n = 150$ and $n = 250$ (49 instances of
+each size). These instances are large enough to make exact optimisation
+intractable, which is precisely what motivates using heuristic approaches.
+For each instance, a best-known objective value is available and is used
+throughout to compute the relative percentage deviation (RPD), allowing a
+fair comparison of solution quality across algorithms.

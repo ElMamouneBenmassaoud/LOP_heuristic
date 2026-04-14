@@ -1,38 +1,25 @@
-/*  Heuristic Optimization assignment, 2026.
-    Neighborhood structures for the Linear Ordering Problem.
-    All delta functions use incremental evaluation (no full recomputation).
-*/
 
 #include <stdlib.h>
 #include "neighborhoods.h"
 #include "instance.h"
 
-/* ══════════════════════════════════════════════════════════════════════
-   DELTA FUNCTIONS
-   ══════════════════════════════════════════════════════════════════════ */
 
-/* Transpose: swap adjacent elements at positions i and i+1.
-   Only the pair (s[i], s[i+1]) changes order in the objective sum.
-   delta = C[s[i+1]][s[i]] - C[s[i]][s[i+1]]                         */
+/* --- delta functions --- */
+
+/* swap s[i] and s[i+1]: only that pair changes in the objective */
 long long int deltaTranspose(long int *s, int i) {
     return (long long int)CostMat[s[i+1]][s[i]]
          - (long long int)CostMat[s[i]][s[i+1]];
 }
 
-/* Exchange: swap elements at positions i and j (i < j).
-   Three types of pairs are affected:
-   - The direct pair (s[i], s[j])
-   - Each element s[k] between i and j paired with s[i] (now s[j] takes that slot)
-   - Each element s[k] between i and j paired with s[j] (now s[i] takes that slot) */
+/* swap s[i] and s[j]: the direct pair + all elements between i and j */
 long long int deltaExchange(long int *s, int i, int j) {
     long long int delta = 0;
     int k;
 
-    /* Direct pair contribution */
     delta += (long long int)CostMat[s[j]][s[i]]
            - (long long int)CostMat[s[i]][s[j]];
 
-    /* Elements strictly between i and j */
     for (k = i + 1; k < j; k++) {
         delta += (long long int)CostMat[s[j]][s[k]]
                - (long long int)CostMat[s[i]][s[k]];
@@ -43,11 +30,7 @@ long long int deltaExchange(long int *s, int i, int j) {
     return delta;
 }
 
-/* Insert: remove element at position i and reinsert it at position j.
-   Case j > i: s[i] moves right — for each k in [i+1, j], s[k] now
-               comes before s[i] instead of after it.
-   Case j < i: s[i] moves left  — for each k in [j, i-1], s[i] now
-               comes before s[k] instead of after it.               */
+/* remove s[i] and reinsert at j: equivalent to |i-j| adjacent swaps */
 long long int deltaInsert(long int *s, int i, int j) {
     long long int delta = 0;
     int k;
@@ -55,12 +38,10 @@ long long int deltaInsert(long int *s, int i, int j) {
     if (i == j) return 0;
 
     if (j > i) {
-        /* s[i] shifts right: each s[k] in (i+1..j) overtakes s[i] */
         for (k = i + 1; k <= j; k++)
             delta += (long long int)CostMat[s[k]][s[i]]
                    - (long long int)CostMat[s[i]][s[k]];
     } else {
-        /* s[i] shifts left: s[i] overtakes each s[k] in (j..i-1) */
         for (k = j; k < i; k++)
             delta += (long long int)CostMat[s[i]][s[k]]
                    - (long long int)CostMat[s[k]][s[i]];
@@ -69,9 +50,8 @@ long long int deltaInsert(long int *s, int i, int j) {
     return delta;
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   MOVE APPLICATION
-   ══════════════════════════════════════════════════════════════════════ */
+
+/* --- apply moves --- */
 
 void applyTranspose(long int *s, int i) {
     long int tmp = s[i];
@@ -85,7 +65,6 @@ void applyExchange(long int *s, int i, int j) {
     s[j] = tmp;
 }
 
-/* Removes s[i], shifts elements, then inserts at position j */
 void applyInsert(long int *s, int i, int j) {
     long int elem = s[i];
     int k;
@@ -100,11 +79,8 @@ void applyInsert(long int *s, int i, int j) {
     s[j] = elem;
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   ITERATIVE IMPROVEMENT — one neighborhood, until local optimum
-   firstImprovement=1 → first-improvement rule
-   firstImprovement=0 → best-improvement rule
-   ══════════════════════════════════════════════════════════════════════ */
+
+/* --- iterative improvement --- */
 
 long long int iterativeImprovementTranspose(long int *s, long long int cost,
                                             int firstImprovement) {
@@ -124,7 +100,7 @@ long long int iterativeImprovementTranspose(long int *s, long long int cost,
                     applyTranspose(s, i);
                     cost    += delta;
                     improved = 1;
-                    break; /* restart scan from the beginning */
+                    break;
                 }
             } else {
                 if (delta > bestDelta) {
@@ -134,7 +110,6 @@ long long int iterativeImprovementTranspose(long int *s, long long int cost,
             }
         }
 
-        /* Best-improvement: apply the best move found in full scan */
         if (!firstImprovement && bestI >= 0) {
             applyTranspose(s, bestI);
             cost    += bestDelta;
@@ -164,7 +139,7 @@ long long int iterativeImprovementExchange(long int *s, long long int cost,
                         applyExchange(s, i, j);
                         cost    += delta;
                         improved = 1;
-                        break; /* restart */
+                        break;
                     }
                 } else {
                     if (delta > bestDelta) {
@@ -206,7 +181,7 @@ long long int iterativeImprovementInsert(long int *s, long long int cost,
                         applyInsert(s, i, j);
                         cost    += delta;
                         improved = 1;
-                        break; /* restart */
+                        break;
                     }
                 } else {
                     if (delta > bestDelta) {
@@ -228,10 +203,6 @@ long long int iterativeImprovementInsert(long int *s, long long int cost,
     return cost;
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   DISPATCHER
-   ══════════════════════════════════════════════════════════════════════ */
-
 long long int runIterativeImprovement(long int *s, long long int cost,
                                       PivotRule pivot, Neighborhood neigh) {
     int fi = (pivot == PIVOT_FIRST);
@@ -244,16 +215,12 @@ long long int runIterativeImprovement(long int *s, long long int cost,
     }
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   VND — Variable Neighborhood Descent
-   Uses first-improvement at each neighborhood step (as required).
-   Restarts from the first neighborhood whenever an improvement is found.
-   Stops when no neighborhood yields an improvement.
-   ══════════════════════════════════════════════════════════════════════ */
+
+/* --- VND --- */
 
 long long int runVND(long int *s, long long int cost, Algorithm alg) {
-    /* Neighborhood order: VND1 = T,E,I  |  VND2 = T,I,E */
     Neighborhood order[3];
+
     if (alg == ALG_VND1) {
         order[0] = NEIGH_TRANSPOSE;
         order[1] = NEIGH_EXCHANGE;
@@ -268,7 +235,6 @@ long long int runVND(long int *s, long long int cost, Algorithm alg) {
     while (k < 3) {
         long long int newCost;
 
-        /* first-improvement (1) at each step, as specified */
         switch (order[k]) {
             case NEIGH_TRANSPOSE: newCost = iterativeImprovementTranspose(s, cost, 1); break;
             case NEIGH_EXCHANGE:  newCost = iterativeImprovementExchange (s, cost, 1); break;
@@ -278,9 +244,9 @@ long long int runVND(long int *s, long long int cost, Algorithm alg) {
 
         if (newCost > cost) {
             cost = newCost;
-            k = 0; /* improvement found: restart from first neighborhood */
+            k = 0;
         } else {
-            k++; /* no improvement: try next neighborhood */
+            k++;
         }
     }
 

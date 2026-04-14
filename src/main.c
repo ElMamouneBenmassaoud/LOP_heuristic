@@ -32,7 +32,6 @@
 
 char *FileName;
 
-/* Enums are defined in optimization.h and shared across all files */
 PivotRule    pivotRule    = PIVOT_NONE;
 Neighborhood neighborhood = NEIGH_NONE;
 InitMethod   initMethod   = INIT_NONE;
@@ -53,7 +52,6 @@ void usage(const char *prog) {
 }
 
 void readOpts(int argc, char **argv) {
-  /* Long options added on top of the original -i short option */
   static struct option long_opts[] = {
     { "first",     no_argument, NULL, 1 },
     { "best",      no_argument, NULL, 2 },
@@ -72,7 +70,7 @@ void readOpts(int argc, char **argv) {
 
   while ( (opt = getopt_long(argc, argv, "i:", long_opts, &idx)) != -1 )
     switch (opt) {
-      case 'i': /* Instance file */
+      case 'i':
           FileName = (char *)malloc(strlen(optarg)+1);
           strncpy(FileName, optarg, strlen(optarg));
           break;
@@ -90,7 +88,6 @@ void readOpts(int argc, char **argv) {
           usage(argv[0]);
     }
 
-  /* Validate required arguments */
   if ( !FileName ) {
     printf("No instance file provided (use -i <instance_name>). Exiting.\n");
     exit(1);
@@ -112,7 +109,7 @@ void readOpts(int argc, char **argv) {
 }
 
 void printConfig() {
-  printf("=== Configuration ===\n");
+  printf("Configuration :\n");
   if (algorithm == ALG_VND1)
     printf("Algorithm  : VND  (transpose -> exchange -> insert)\n");
   else if (algorithm == ALG_VND2)
@@ -124,63 +121,49 @@ void printConfig() {
            neighborhood == NEIGH_TRANSPOSE ? "transpose" :
            neighborhood == NEIGH_EXCHANGE  ? "exchange"  : "insert");
   }
-  printf("Init       : %s\n", initMethod == INIT_RANDOM ? "random" : "CW heuristic");
-  printf("=====================\n\n");
+  printf("Init       : %s\n\n", initMethod == INIT_RANDOM ? "random" : "CW heuristic");
 }
-
 
 
 int main (int argc, char **argv)
 {
-  long int i,j;
+  long int i, j;
   long int *currentSolution;
   long long int cost, finalCost;
 
-  /* Do not buffer output */
-  setbuf(stdout,NULL);
-  setbuf(stderr,NULL);
+  setbuf(stdout, NULL);
+  setbuf(stderr, NULL);
 
   if (argc < 2) {
     printf("No instance file provided (use -i <instance_name>). Exiting.\n");
     exit(1);
   }
 
-  /* Read parameters */
   readOpts(argc, argv);
-
-  /* Print chosen configuration */
   printConfig();
 
-  /* Read instance file */
   CostMat = readInstance(FileName);
   printf("Data have been read from instance file. Size of instance = %ld.\n\n", PSize);
 
-  /* initialize random number generator, deterministically based on instance.
-   * To do this we simply set the seed to the sum of elements in the matrix, so it is constant per-instance,
-   but (most likely) varies between instances */
+  /* seed based on matrix content so it stays constant per instance */
   Seed = (long int) 0;
-    for (i=0; i < PSize; ++i)
-      for (j=0; j < PSize; ++j)
-        Seed += (long int) CostMat[i][j];
+  for (i = 0; i < PSize; ++i)
+    for (j = 0; j < PSize; ++j)
+      Seed += (long int) CostMat[i][j];
   printf("Seed used to initialize RNG: %ld.\n\n", Seed);
 
-  /* starts time measurement */
   start_timers();
 
-  /* A solution is just a vector of int with the same size as the instance */
   currentSolution = (long int *)malloc(PSize * sizeof(long int));
 
-  /* Create an initial solution depending on chosen method */
   if (initMethod == INIT_RANDOM)
     createRandomSolution(currentSolution);
   else
     createCWSolution(currentSolution);
 
-  /* Compute cost of initial solution and print it */
   cost = computeCost(currentSolution);
   printf("Initial cost: %lld\n", cost);
 
-  /* Run the chosen algorithm (II or VND) */
   if (algorithm == ALG_VND1 || algorithm == ALG_VND2)
     finalCost = runVND(currentSolution, cost, algorithm);
   else

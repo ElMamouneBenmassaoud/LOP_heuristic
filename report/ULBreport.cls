@@ -54,10 +54,9 @@
 %%%%package tikz%%%%
 
 \RequirePackage{tikz}
-\usetikzlibrary{mindmap}
-\RequirePackage{chemfig}
-\RequirePackage{pgfplots}
-\pgfplotsset{compat=newest}
+% \usetikzlibrary{mindmap}   % not needed
+% \RequirePackage{chemfig}   % not needed
+% \RequirePackage{pgfplots}  % not needed
 
 %%%%Forme%%%%
 
