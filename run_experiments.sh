@@ -1,3 +1,4 @@
+#!/bin/bash
 BINARY="./lop"
 INSTANCES_DIR="./instances"
 BEST_KNOWN_FILE="./best_known/best_known.txt"
@@ -21,7 +22,7 @@ run_one() {
         instance=$(basename "$instance_path")
         size=$(echo "$instance" | grep -o '[0-9]*$')
 
-        output=$("$BINARY" -i "$instance_path" $=flags 2>/dev/null)
+        output=$("$BINARY" -i "$instance_path" $flags 2>/dev/null)
         final_cost=$(echo "$output" | grep "Final cost"   | awk '{print $NF}')
         time_sec=$(echo  "$output" | grep "Time elapsed" | awk '{print $NF}')
 

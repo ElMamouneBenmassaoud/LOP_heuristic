@@ -82,7 +82,7 @@ PROJECT STRUCTURE
 
 RUNNING ALL EXPERIMENTS
 -----------------------
-    zsh run_experiments.sh
+    bash run_experiments.sh
 
 Output is saved to results/raw_data.txt (tab-separated).
 
