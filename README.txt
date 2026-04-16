@@ -29,7 +29,8 @@ Options:
     Pivoting rule  : --first | --best
     Neighborhood   : --transpose | --exchange | --insert
     Initialization : --random | --cw
-    VND            : --vnd1 | --vnd2  (replaces pivot + neighborhood)
+    VND            : --vnd1 (transpose->exchange->insert)
+                   | --vnd2 (transpose->insert->exchange)
 
 For Iterative Improvement (Exercise 1.1), all three options are required.
 For VND (Exercise 1.2), only --vnd1 or --vnd2 and an init method are needed.
